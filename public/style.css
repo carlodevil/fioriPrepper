@@ -1,0 +1,8 @@
+/* tiny helper – smooth height change for question area */
+.question-wrapper {
+  transition: height .3s ease;
+}
+
+/* tick / cross icons */
+.correct { color: #10b981; }  /* emerald-500 */
+.wrong   { color: #f43f5e; }  /* rose-500 */
