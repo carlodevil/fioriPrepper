@@ -7,12 +7,10 @@ const $   = sel => document.querySelector(sel);
 const API = p   => fetch(`/api/${p}`).then(r => r.json());
 const shuffle = a => { for (let i=a.length;i;--i) { const j=Math.random()*i|0; [a[i-1],a[j]]=[a[j],a[i-1]]; } return a; };
 const labelFor  = n => n === 1 ? 'One correct answer' : `${n} correct answers`;
-const bankKey   = ids=>ids.join('_');          // e.g. "1"  or  "2_3"
 
 /* ---------- runtime state ---------------------- */
 let bankMeta   = { bankCount:0, bankSize:40 };
 let selected   = [];                            // chosen banks (int array)
-let key        = 'all';                         // leaderboard key
 let questions  = [];
 let queue      = [];
 let idx        = 0;
@@ -48,12 +46,9 @@ async function showHome() {
               class="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700">
         ▶ Start
       </button>
-
-      <div id="board" class="mt-8"></div>
     </div>`;
 
   $('#startBtn').onclick = prepareRun;
-  loadBoard('board','all');
 }
 
 /* =================================================
@@ -64,9 +59,6 @@ async function prepareRun() {
 
   if (!selected.length) {                       // no boxes ticked → all banks
     selected = Array.from({length:bankMeta.bankCount},(_,i)=>i+1);
-    key = 'all';
-  } else {
-    key = bankKey(selected);
   }
 
   const raw = await API('bank/' + selected.join(','));
@@ -207,7 +199,7 @@ function advance(ok){
 }
 
 /* =================================================
- *  RESULT / LEADERBOARD
+ *  RESULT
  * ================================================= */
 function showResult(){
   app.innerHTML = `
@@ -215,50 +207,12 @@ function showResult(){
       <h2 class="text-2xl font-bold">Quiz complete!</h2>
       <p class="text-lg">Score: ${correct} / ${questions.length}</p>
 
-      <input id="player" class="w-full p-3 rounded-lg text-black" placeholder="Your name">
-      <button id="saveBtn"
-              class="w-full py-3 rounded-lg bg-green-600 hover:bg-green-700 disabled:opacity-30">
-        Save to leaderboard
-      </button>
-
       <button id="homeBtn"
-              class="w-full py-3 rounded-lg bg-slate-600 hover:bg-slate-700 mt-2">
+              class="w-full py-3 rounded-lg bg-slate-600 hover:bg-slate-700">
         ⬅ Home
       </button>
-
-      <div id="board" class="mt-8"></div>
     </div>`;
 
-  $('#saveBtn').onclick = async () => {
-    const name = $('#player').value.trim();
-    if (!name) return alert('Enter a name first!');
-    await fetch(`/api/leaderboard/${key}`,{
-      method :'POST',
-      headers: {'Content-Type':'application/json'},
-      body   : JSON.stringify({name,score:correct,total:questions.length,time:Date.now()})
-    });
-    loadBoard('board',key);
-  };
-
   $('#homeBtn').onclick = showHome;
-  loadBoard('board',key);
 }
 
-/* =================================================
- *  LEADERBOARD (reuse for home & result)
- * ================================================= */
-function loadBoard(el,key){
-  API(`leaderboard/${key}`).then(list=>{
-    const rows = list.length
-      ? list.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.score}/${r.total}</td></tr>`).join('')
-      : '<tr><td colspan="3" class="text-center py-2">No scores yet</td></tr>';
-    $('#'+el).innerHTML = `
-      <h3 class="font-semibold mb-2">Leaderboard${key!=='all'?' – Bank '+key:''}</h3>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm sm:text-base">
-          <thead><tr><th>#</th><th>Name</th><th>Score</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-  });
-}
