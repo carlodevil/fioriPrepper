@@ -4,5 +4,5 @@
 }
 
 /* tick / cross icons */
-.correct { color: #10b981; }  /* emerald-500 */
-.wrong   { color: #f43f5e; }  /* rose-500 */
+.correct { background-color: #10b981 !important; color: #000 !important; }
+.wrong   { background-color: #f43f5e !important; color: #000 !important; }

@@ -1,6 +1,6 @@
 # 🏅 Fiori Study Buddy
 
-A modern, interactive quiz application designed to help SAP Fiori developers and consultants prepare for certifications and enhance their knowledge. The application features a clean, responsive interface with question banks, scoring system, and leaderboards.
+A modern, mobile‑first quiz application designed to help SAP Fiori developers and consultants prepare for certifications and enhance their knowledge. The application features a clean, responsive interface with question banks, scoring system, and leaderboards backed by Cloudflare KV.
 
 ## ✨ Features
 
@@ -9,14 +9,15 @@ A modern, interactive quiz application designed to help SAP Fiori developers and
 - **Scoring System**: Track your progress with detailed scoring metrics
 - **Leaderboards**: Compete with others and track top performers
 - **Time Tracking**: Monitor how long it takes to complete quizzes
-- **Persistent Data**: Scores and leaderboards saved using LowDB
+- **Persistent Data**: Scores and leaderboards saved in Cloudflare KV
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (version 14 or higher)
+- Node.js (version 18 or higher)
 - npm or yarn package manager
+- [Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/) for Cloudflare deployment
 
 ### Installation
 
@@ -31,34 +32,42 @@ A modern, interactive quiz application designed to help SAP Fiori developers and
    npm install
    ```
 
-3. **Start the application**
+3. **Start the application locally**
    ```powershell
    npm start
    ```
 
-4. **Open your browser**
-   
-   Navigate to `http://localhost:3000` to start using the quiz app.
+4. **Open your browser** and navigate to `http://localhost:3000`.
+
+5. **Deploy to Cloudflare** (optional)
+   ```powershell
+   wrangler deploy
+   ```
+   Ensure a KV namespace named `LEADERBOARD` exists:
+   ```powershell
+   wrangler kv:namespace create LEADERBOARD
+   ```
+   and update `wrangler.toml` with the generated id.
 
 ## 📁 Project Structure
 
 ```
 fioriPrepper/
-├── server.js              # Express.js backend server
-├── package.json           # Project dependencies and scripts
+├── worker.js             # Cloudflare Worker (Hono) serving API and assets
+├── server.js             # Node wrapper for local development
+├── package.json          # Project dependencies and scripts
 ├── data/
-│   ├── questions.json     # Quiz questions database
-│   └── leaderboard.json   # Leaderboard data storage
+│   └── questions.json    # Quiz questions database
 └── public/
-    ├── index.html         # Main HTML page
+    ├── index.html        # Main HTML page
     ├── main.js           # Frontend JavaScript logic
     └── style.css         # Custom styles
 ```
 
 ## 🔧 Technical Stack
 
-- **Backend**: Node.js with Express.js
-- **Database**: LowDB (JSON-based database)
+- **Backend**: Cloudflare Worker using Hono
+- **Storage**: Cloudflare KV (in‑memory when running locally)
 - **Frontend**: Vanilla JavaScript with Tailwind CSS
 - **Module System**: ES6 modules
 
@@ -111,7 +120,7 @@ Submit a new score to the leaderboard.
 ## 🔒 Data Management
 
 - **Questions**: Stored in `data/questions.json` with a structured format including question text, answers, and correct answer indicators
-- **Leaderboards**: Automatically saved to `data/leaderboard.json` with scores organized by quiz configuration
+- **Leaderboards**: Saved in Cloudflare KV and synced automatically per quiz configuration
 - **Bank System**: Questions are automatically divided into banks of 40 questions each
 
 ## 🛠️ Configuration
@@ -122,7 +131,7 @@ Submit a new score to the leaderboard.
 
 ### Customization
 
-- **Bank Size**: Modify the `BANK_SIZE` constant in `server.js` (default: 40)
+- **Bank Size**: Modify the `BANK_SIZE` constant in `worker.js` (default: 40)
 - **Leaderboard Size**: Adjust the slice limit in the leaderboard endpoint (default: top 10)
 - **Name Length**: Change the character limit for player names (default: 20 characters)
 

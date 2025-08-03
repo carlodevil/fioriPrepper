@@ -6,7 +6,7 @@
 const $   = sel => document.querySelector(sel);
 const API = p   => fetch(`/api/${p}`).then(r => r.json());
 const shuffle = a => { for (let i=a.length;i;--i) { const j=Math.random()*i|0; [a[i-1],a[j]]=[a[j],a[i-1]]; } return a; };
-const labelFor  = n => ['One','Two','Three','Four'][n-1] + (n===1?' correct answer':' correct answers');
+const labelFor  = n => n === 1 ? 'One correct answer' : `${n} correct answers`;
 const bankKey   = ids=>ids.join('_');          // e.g. "1"  or  "2_3"
 
 /* ---------- runtime state ---------------------- */
@@ -249,13 +249,16 @@ function showResult(){
  * ================================================= */
 function loadBoard(el,key){
   API(`leaderboard/${key}`).then(list=>{
-    const rows = list.map((r,i)=>
-      `<tr><td>${i+1}</td><td>${r.name}</td><td>${r.score}/${r.total}</td></tr>`).join('');
+    const rows = list.length
+      ? list.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.score}/${r.total}</td></tr>`).join('')
+      : '<tr><td colspan="3" class="text-center py-2">No scores yet</td></tr>';
     $('#'+el).innerHTML = `
       <h3 class="font-semibold mb-2">Leaderboard${key!=='all'?' – Bank '+key:''}</h3>
-      <table class="w-full text-left">
-        <thead><tr><th>#</th><th>Name</th><th>Score</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>`;
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm sm:text-base">
+          <thead><tr><th>#</th><th>Name</th><th>Score</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
   });
 }
