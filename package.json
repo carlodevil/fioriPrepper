@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "lowdb": "^7.0.1"
+    "@hono/node-server": "^1.18.1",
+    "hono": "^4.8.12"
   }
 }
