@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
-import { serveStatic } from 'hono/serve-static';
+import { serveStatic as serveStaticNode } from '@hono/node-server/serve-static';
+import { serveStatic as serveStaticWorker } from 'hono/cloudflare-workers';
 import questions from './data/questions.json' with { type: 'json' };
 
 const BANK_SIZE = 40;
@@ -21,6 +22,11 @@ app.get('/api/bank/:ids', c => {
 });
 
 // serve static assets
-app.use('*', serveStatic({ root: './public' }));
+const isNode = typeof process !== 'undefined' && process.versions?.node;
+const staticMiddleware = isNode
+  ? serveStaticNode({ root: './public' })
+  : serveStaticWorker({ root: './' });
+
+app.use('*', staticMiddleware);
 
 export default app;
