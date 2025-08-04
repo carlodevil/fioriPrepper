@@ -9,11 +9,6 @@ function getBank(ids){
   return ids.flatMap(b => questions.slice((b - 1) * BANK_SIZE, b * BANK_SIZE));
 }
 
-app.onError((err, c) => {
-  console.error(err);
-  return c.text('Internal error', 500);
-});
-
 const app = new Hono();
 
 app.get('/api/banks', c => c.json({ bankCount, bankSize: BANK_SIZE }));
