@@ -1,5 +1,5 @@
-name = "fiori-study-buddy"
+name = "fiori-test-prepper"
 main = "worker.js"
-compatibility_date = "2024-09-01"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
