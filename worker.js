@@ -9,10 +9,12 @@ function getBank(ids){
   return ids.flatMap(b => questions.slice((b - 1) * BANK_SIZE, b * BANK_SIZE));
 }
 
-const app = new Hono();
+app.onError((err, c) => {
+  console.error(err);
+  return c.text('Internal error', 500);
+});
 
-// serve static assets
-app.use('/*', serveStatic({ root: './public', rewriteRequestPath: p => p }));
+const app = new Hono();
 
 app.get('/api/banks', c => c.json({ bankCount, bankSize: BANK_SIZE }));
 
@@ -22,5 +24,8 @@ app.get('/api/bank/:ids', c => {
     return c.text('Invalid bank id', 400);
   return c.json(getBank(ids));
 });
+
+// serve static assets
+app.use('/*', serveStatic({ root: './public', rewriteRequestPath: p => p }));
 
 export default app;
