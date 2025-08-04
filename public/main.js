@@ -19,6 +19,8 @@ let incorrect  = 0;
 let answered   = false;
 let correctCnt = 0;
 const REINSERT = 4;                             // spaced-repetition gap
+let seen       = new Set();                     // track unique questions answered
+let failed     = new Set();                     // track questions failed at least once
 
 /* ---------- boot ------------------------------ */
 showHome();
@@ -71,6 +73,8 @@ async function prepareRun() {
 
   queue   = [...questions];
   idx = correct = incorrect = 0;
+  seen = new Set();
+  failed = new Set();
   renderQuestion();
 }
 
@@ -108,8 +112,10 @@ function renderQuestion() {
                   disabled>Answer</button>` : ''}
       </div>
 
+      <div id="next-container"></div>
+
       <progress class="w-full h-3"
-                value="${Math.min(idx,questions.length)}"
+                value="${seen.size}"
                 max="${questions.length}"></progress>
     </div>`;
 
@@ -170,8 +176,8 @@ function reveal(){
  *  NEXT
  * ================================================= */
 function showNext(ok){
-  const area = $('.bg-slate-800');
   let next = $('#answerBtn');
+  const nextContainer = $('#next-container');
 
   if (next) {
     /* morph “Answer” into “Next” */
@@ -180,21 +186,45 @@ function showNext(ok){
     next.classList.remove('bg-indigo-600','hover:bg-indigo-700');
     next.classList.add('bg-green-600','hover:bg-green-700');
     next.dataset.role = 'next';
+    // Move the button to the next-container
+    nextContainer.appendChild(next);
   } else {
     /* single-answer path → create new Next button */
     next = document.createElement('button');
     next.textContent = 'Next';
     next.className = 'mt-6 w-full py-3 rounded-lg bg-green-600 hover:bg-green-700';
     next.dataset.role = 'next';
-    area.appendChild(next);
+    nextContainer.appendChild(next);
   }
   next.onclick = () => advance(ok);
 }
 
 function advance(ok){
-  ok ? ++correct : ++incorrect;
-  if (!ok) queue.splice(Math.min(idx+REINSERT,queue.length),0,queue[idx]);
-  ++idx;
+  const q = queue[idx];
+  // Use question text + answers as a unique key (could be improved if questions have IDs)
+  const key = JSON.stringify(q);
+
+  if (!seen.has(key)) {
+    seen.add(key);
+    if (ok && !failed.has(key)) {
+      correct++;
+    } else {
+      incorrect++;
+      if (!ok) failed.add(key);
+    }
+  } else if (!ok && !failed.has(key)) {
+    // If this is the first time failed, increment incorrect
+    incorrect++;
+    failed.add(key);
+  }
+
+  if (ok) {
+    idx++;
+  } else {
+    // Reinsert question further in the queue, but do not advance idx
+    queue.splice(Math.min(idx+REINSERT,queue.length),0,queue[idx]);
+    idx++;
+  }
   renderQuestion();
 }
 
@@ -206,6 +236,8 @@ function showResult(){
     <div class="w-full max-w-md mx-auto space-y-4 text-center">
       <h2 class="text-2xl font-bold">Quiz complete!</h2>
       <p class="text-lg">Score: ${correct} / ${questions.length}</p>
+      <p class="text-lg">Incorrect: ${incorrect}</p>
+      <p class="text-sm text-slate-400">Answered: ${correct + incorrect} / ${questions.length}</p>
 
       <button id="homeBtn"
               class="w-full py-3 rounded-lg bg-slate-600 hover:bg-slate-700">

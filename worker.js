@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
-import { serveStatic } from 'hono/serve-static';
+import { serveStatic } from '@hono/node-server/serve-static';
 import questions from './data/questions.json' with { type: 'json' };
+import path from 'node:path';
 
 const BANK_SIZE = 40;
 const bankCount = Math.ceil(questions.length / BANK_SIZE);
@@ -21,6 +22,6 @@ app.get('/api/bank/:ids', c => {
 });
 
 // serve static assets
-app.use('*', serveStatic({ root: './public' }));
+app.use('*', serveStatic({ root: path.join(process.cwd(), 'public') }));
 
 export default app;
