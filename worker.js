@@ -11,6 +11,9 @@ function getBank(ids){
 
 const app = new Hono();
 
+// serve static assets
+app.use('/*', serveStatic({ root: './public', rewriteRequestPath: p => p }));
+
 app.get('/api/banks', c => c.json({ bankCount, bankSize: BANK_SIZE }));
 
 app.get('/api/bank/:ids', c => {
@@ -19,8 +22,5 @@ app.get('/api/bank/:ids', c => {
     return c.text('Invalid bank id', 400);
   return c.json(getBank(ids));
 });
-
-// serve static assets
-app.use('*', serveStatic({ root: './public' }));
 
 export default app;
