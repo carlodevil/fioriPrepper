@@ -203,7 +203,7 @@
     "answers": [
       {
         "text": "It enables test-driven development",
-        "correct": true
+        "correct": false
       },
       {
         "text": "It provides support for Spies, stubs and mocks",
@@ -5673,15 +5673,15 @@
     "answers": [
       {
         "text": "Testing across more than one page is NOT possible",
-        "correct": false
-      },
-      {
-        "text": "It never causes a test to fail",
         "correct": true
       },
       {
-        "text": "End-to-End tests are NOT recommended",
+        "text": "It never causes a test to fail",
         "correct": false
+      },
+      {
+        "text": "End-to-End tests are NOT recommended",
+        "correct": true
       },
       {
         "text": "The developer needs to create the test during development",
@@ -7007,7 +7007,7 @@
       },
       {
         "text": "Create a module using the Web IDE implementing the specific look and feel and reference this module in the bootstrap of all apps",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Create a css file using the Web IDE implementing the specific look and feel and reference this css in the bootstrap of all apps",
