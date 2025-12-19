@@ -1323,7 +1323,7 @@
     "answers": [
       {
         "text": "Fragments are found by SAPUI5 Runtime using the module loading mechanism.",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Fragments are light-weight UI parts that can be reused.",
@@ -1335,7 +1335,7 @@
       },
       {
         "text": "Fragments have their own controller",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -7003,11 +7003,11 @@
       },
       {
         "text": "Create a global JavaScript file using the Web IDE implementing the specific look and feel and reference this file in the bootstrap of all apps",
-        "correct": true
+        "correct": false
       },
       {
         "text": "Create a module using the Web IDE implementing the specific look and feel and reference this module in the bootstrap of all apps",
-        "correct": true
+        "correct": false
       },
       {
         "text": "Create a css file using the Web IDE implementing the specific look and feel and reference this css in the bootstrap of all apps",
