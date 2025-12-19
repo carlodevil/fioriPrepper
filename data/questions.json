@@ -83,11 +83,11 @@
       },
       {
         "text": "SAP Business Application Studio",
-        "correct": true
+        "correct": false
       },
       {
         "text": "SAP Data Intelligence",
-        "correct": false
+        "correct": true
       }
     ]
   },
@@ -211,11 +211,11 @@
       },
       {
         "text": "It supplies higher level test doubles for timers and AJAX requests",
-        "correct": true
+        "correct": false
       },
       {
         "text": "It can be used with any JavaScript unit test framework",
-        "correct": false
+        "correct": true
       }
     ]
   },
@@ -313,19 +313,19 @@
     "answers": [
       {
         "text": "The data that the models work with can be reused by several different applications",
-        "correct": false
+        "correct": true
       },
       {
         "text": "The project team members that have extensive UI skills can concentrate in that area",
-        "correct": false
+        "correct": true
       },
       {
         "text": "MVC is easy to implement for the project team members and supports quick coding",
-        "correct": true
+        "correct": false
       },
       {
         "text": "MVC artifacts can be transported and debugged separately",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -1243,11 +1243,11 @@
       },
       {
         "text": "Create a reference under collection facet",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Create content, like field groups or charts for a Facet",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -1323,7 +1323,7 @@
     "answers": [
       {
         "text": "Fragments are found by SAPUI5 Runtime using the module loading mechanism.",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Fragments are light-weight UI parts that can be reused.",
@@ -1331,7 +1331,7 @@
       },
       {
         "text": "Fragments can be a stand-alone view",
-        "correct": true
+        "correct": false
       },
       {
         "text": "Fragments have their own controller",
@@ -1485,7 +1485,7 @@
     "answers": [
       {
         "text": "The Analytical entity set, returns summarized results according to the $select parameter.",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Analyzes the use of the database and runs faster when SAP HANA is used as database compared to a normal entity set.",
@@ -1497,7 +1497,7 @@
       },
       {
         "text": "The Analytical entity set, returns all data, needed to analyze the client.",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -1577,7 +1577,7 @@
     "answers": [
       {
         "text": "SmartForm",
-        "correct": true
+        "correct": false
       },
       {
         "text": "SmartFilterBar",
@@ -1593,7 +1593,7 @@
       },
       {
         "text": "SmartChart",
-        "correct": false
+        "correct": true
       }
     ]
   },
@@ -5585,7 +5585,7 @@
       },
       {
         "text": "SAP BTP Extension Suite",
-        "correct": false
+        "correct": true
       },
       {
         "text": "SAP BTP Integration Suite",
@@ -5593,7 +5593,7 @@
       },
       {
         "text": "SAP Business Application Studio",
-        "correct": true
+        "correct": false
       },
       {
         "text": "SAP Data Intelligence",
@@ -5765,7 +5765,7 @@
       },
       {
         "text": "Allows to define several views of the same data.",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Allows changing the view without modifying the underlying business logic.",
@@ -5773,7 +5773,7 @@
       },
       {
         "text": "MVC artifacts can be transported and debugged separately.",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -6081,11 +6081,11 @@
       },
       {
         "text": "PUT",
-        "correct": false
+        "correct": true
       },
       {
         "text": "UPDATE",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -6683,7 +6683,7 @@
     "answers": [
       {
         "text": "Use of XML Model",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Use of JSON Model",
@@ -6699,7 +6699,7 @@
       },
       {
         "text": "Use of Resource Model",
-        "correct": true
+        "correct": false
       }
     ]
   },
@@ -6999,7 +6999,7 @@
     "answers": [
       {
         "text": "Create a model using the Web IDE implementing the specific look and feel and reference this model in the bootstrap of all apps",
-        "correct": true
+        "correct": false
       },
       {
         "text": "Create a global JavaScript file using the Web IDE implementing the specific look and feel and reference this file in the bootstrap of all apps",
@@ -7007,7 +7007,7 @@
       },
       {
         "text": "Create a module using the Web IDE implementing the specific look and feel and reference this module in the bootstrap of all apps",
-        "correct": false
+        "correct": true
       },
       {
         "text": "Create a css file using the Web IDE implementing the specific look and feel and reference this css in the bootstrap of all apps",
